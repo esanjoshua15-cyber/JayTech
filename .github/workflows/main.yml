@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Facts Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .fact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            line-height: 1.6;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .fact-counter {
+            color: #999;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .fact-box {
+                padding: 25px 20px;
+                min-height: 120px;
+                font-size: 1em;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Random Facts</h1>
+        <p class="subtitle">Learn something new every time!</p>
+        
+        <div class="fact-box" id="factBox">
+            Click the button below to discover a random fact!
+        </div>
+        
+        <button onclick="generateFact()">Get New Fact</button>
+        <div class="fact-counter">
+            Fact #<span id="factCount">0</span>
+        </div>
+    </div>
+
+    <script>
+        const facts = [
+            "Honey never spoils. Archaeologists have found 3,000-year-old honey in Egyptian tombs that was still edible.",
+            "A group of flamingos is called a 'flamboyance'.",
+            "The Great Wall of China is not visible from space without aid.",
+            "Bananas are berries, but strawberries aren't.",
+            "Octopuses have three hearts and blue blood.",
+            "A day on Venus is longer than its year.",
+            "Cleopatra lived closer to the moon landing than to the Great Pyramid's construction.",
+            "Honey bees can recognize human faces.",
+            "The shortest war in history lasted 38 to 45 minutes.",
+            "Wombats produce cube-shaped droppings.",
+            "A group of crows is called a 'murder'.",
+            "The Eiffel Tower can be 15 cm taller during summer due to thermal expansion.",
+            "Sharks have been around longer than dinosaurs.",
+            "A snail can sleep for up to 3 years.",
+            "The human nose can remember 50,000 different smells.",
+            "Penguins have knees, they're just hidden under their skin.",
+            "The word 'queueing' is the only word with 5 consecutive vowels.",
+            "Giraffe necks are too short to reach the ground.",
+            "A flock of flamingos is called a 'stand'.",
+            "Cats have over 20 different vocal sounds.",
+            "The fingerprints of koalas are so similar to humans that they could confuse crime scene investigators.",
+            "Otters hold hands while sleeping so they don't drift apart.",
+            "Butterflies can taste with their feet.",
+            "The mantis shrimp can see colors humans can't even imagine.",
+            "It's impossible to hum while holding your nose closed.",
+            "The smell of fresh-cut grass is actually a chemical defense signal.",
+            "You can't sneeze in your sleep because the reflex is disabled.",
+            "Carrots were originally purple, not orange.",
+            "The Vatican City is the smallest country in the world.",
+            "Dragonflies have been around for over 300 million years.",
+            "A cockroach can live for a week without its head.",
+            "The moon is slowly moving away from Earth.",
+            "Peanuts are legumes, not nuts.",
+            "Sloths only poop once a week.",
+            "A group of jellyfish is called a 'bloom'.",
+            "Your gut is often called your 'second brain'.",
+            "The Amazon rainforest produces about 20% of the world's oxygen.",
+            "A cockroach can survive extreme cold.",
+            "Dolphins have names for each other.",
+            "The northern lights are caused by solar wind interacting with Earth's magnetic field."
+        ];
+
+        let factCount = 0;
+
+        function generateFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            const randomFact = facts[randomIndex];
+            
+            const factBox = document.getElementById('factBox');
+            factBox.style.opacity = '0';
+            
+            setTimeout(() => {
+                factBox.textContent = randomFact;
+                factBox.style.opacity = '1';
+                factCount++;
+                document.getElementById('factCount').textContent = factCount;
+            }, 300);
+        }
+
+        // Add smooth transition to fact box
+        const factBox = document.getElementById('factBox');
+        factBox.style.transition = 'opacity 0.3s ease-in-out';
+    </script>
+</body>
+</html>
